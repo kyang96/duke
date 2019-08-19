@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Duke {
     public static void main(String[] args) {
@@ -16,10 +16,22 @@ public class Duke {
 
         Scanner sc = new Scanner(System.in);
         String str = sc.nextLine();
+        List<String> strList = new ArrayList<String>();
         while (!str.equals("bye")){
-            printLine();
-            System.out.println(str);
-            printLine();
+            if (str.equals("list")){
+                printLine();
+                int count = 1;
+                for (String s : strList){
+                    System.out.println(count + ". " + s);
+                    count++;
+                }
+                printLine();
+            } else {
+                printLine();
+                strList.add(str);
+                System.out.println("added: " + str);
+                printLine();
+            }
             str = sc.nextLine();
         }
         printLine();
