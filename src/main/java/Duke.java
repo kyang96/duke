@@ -30,26 +30,38 @@ public class Duke {
                 }
                 printLine();
             } else if (strArr[0].equals("done")) {
-                int num = Integer.parseInt(strArr[1]) - 1;
-                Task task = taskList.get(num);
-                task.markAsDone();
-                taskList.set(num, task);
                 printLine();
-                System.out.println("Nice! I've marked this task as done:");
-                System.out.println(task.toString());
+                try {
+                    int num = Integer.parseInt(strArr[1]) - 1;
+                    Task task = taskList.get(num);
+                    task.markAsDone();
+                    taskList.set(num, task);
+                    System.out.println("Nice! I've marked this task as done:");
+                    System.out.println(task.toString());
+                } catch (IndexOutOfBoundsException e){
+                    System.out.println("☹ OOPS!!! I'm sorry, but this task does not exist");
+                }
                 printLine();
             } else if (strArr[0].equals("todo") || strArr[0].equals("deadline") || strArr[0].equals("event")) {
                 printLine();
-                Task task = addTask(strArr[0], strArr[1]);
-                taskList.add(task);
-                System.out.println("Got it. I've added this task:");
-                System.out.println(task.toString());
-                System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+                try {
+                    Task task = createTask(strArr[0], strArr[1]);
+                    if (task != null){
+                        taskList.add(task);
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println(task.toString());
+                        System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+                    }
+                } catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println("☹ OOPS!!! The description of a " + strArr[0] + " cannot be empty");
+                }
                 printLine();
             } else {
-                printLine();
-                System.out.println("Invalid command");
-                printLine();
+                if (!str.equals("bye")){
+                    printLine();
+                    System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    printLine();
+                }
             }
         } while (!str.equals("bye"));
         printLine();
@@ -61,16 +73,20 @@ public class Duke {
         System.out.println("____________________________________________________________");
     }
 
-    private static Task addTask(String type, String description){
+    private static Task createTask(String type, String description){
         String[] info;
-        if (type.equals("todo")){
-            return new Todo(description);
-        } else if (type.equals("deadline")){
-            info = description.split("/by");
-            return new Deadline(info[0].trim(), info[1].trim());
-        } else if (type.equals("event")){
-            info = description.split("/at");
-            return new Event(info[0].trim(), info[1].trim());
+        try {
+            if (type.equals("todo")) {
+                return new Todo(description);
+            } else if (type.equals("deadline")) {
+                info = description.split("/by");
+                return new Deadline(info[0].trim(), info[1].trim());
+            } else if (type.equals("event")) {
+                info = description.split("/at");
+                return new Event(info[0].trim(), info[1].trim());
+            }
+        } catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("☹ OOPS!!! The date/time of a " + type + " cannot be empty");
         }
         return null;
     }
