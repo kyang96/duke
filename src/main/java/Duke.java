@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Duke {
@@ -58,7 +60,7 @@ public class Duke {
                         fileIO.writeFile(task, strArr[0]);
                     }
                 } catch (ArrayIndexOutOfBoundsException e){
-                    System.out.println("☹ OOPS!!! The description of a " + strArr[0] + " cannot be empty");
+                    System.out.println("☹ OOPS!!! The description of " + strArr[0] + " cannot be empty");
                 }
                 printLine();
             } else {
@@ -88,17 +90,22 @@ public class Duke {
     private static Task createTask(String type, String description) {
         String[] info;
         try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HHmm");
             if (type.equals("todo")) {
                 return new Todo(description);
             } else if (type.equals("deadline")) {
                 info = description.split("/by");
-                return new Deadline(info[0].trim(), info[1].trim());
+                Date date = sdf.parse(info[1].trim());
+                return new Deadline(info[0].trim(), date);
             } else if (type.equals("event")) {
                 info = description.split("/at");
-                return new Event(info[0].trim(), info[1].trim());
+                Date date = sdf.parse(info[1].trim());
+                return new Event(info[0].trim(), date);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("☹ OOPS!!! The date/time of a " + type + " cannot be empty");
+        } catch (ParseException e) {
+            System.out.println("☹ OOPS!!! The format of date/time is \"dd/mm/yyyy hhmm\"");
         }
         return null;
     }

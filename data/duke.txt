@@ -1,3 +1,4 @@
-E,1,go home,11pm
-T,0,read book
-T,0,listen webcast
+T,1,read book
+E,1,run,10 Dec 2019 8:00PM
+D,1,homework,01 Jan 2019 12:00AM
+T,1,return book

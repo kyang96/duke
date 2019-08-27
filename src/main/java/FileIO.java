@@ -1,5 +1,8 @@
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FileIO {
@@ -24,6 +27,7 @@ public class FileIO {
                 str = raf.readLine();
                 String[] strArr = str.split(",");
                 String[] info;
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy h:mma");
                 if (strArr[0].trim().equals("T")){
                     Todo todo = new Todo(strArr[2].trim());
                     if (strArr[1].trim().equals("1")){
@@ -31,25 +35,28 @@ public class FileIO {
                     }
                     taskList.add(todo);
                 } else if (strArr[0].trim().equals("D")){
-                    Deadline deadline = new Deadline(strArr[2].trim(), strArr[3].trim());
+                    Date date = sdf.parse(strArr[3].trim());
+                    Deadline deadline = new Deadline(strArr[2].trim(), date);
                     if (strArr[1].trim().equals("1")){
                         deadline.markAsDone();
                     }
                     taskList.add(deadline);
                 } else if (strArr[0].trim().equals("E")) {
-                    Event event = new Event(strArr[2].trim(), strArr[3].trim());
+                    Date date = sdf.parse(strArr[3].trim());
+                    Event event = new Event(strArr[2].trim(), date);
                     if (strArr[1].trim().equals("1")) {
                         event.markAsDone();
                     }
                     taskList.add(event);
                 }
-                System.out.println(str);
             }
             raf.close();
         } catch (FileNotFoundException e){
             System.out.println("No saved tasks found.");
         } catch (IOException e){
             System.out.println("End of file.");
+        } catch (ParseException e){
+            System.out.println("Wrong date/time format.");
         }
 
         return taskList;
