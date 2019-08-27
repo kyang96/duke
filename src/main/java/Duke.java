@@ -17,6 +17,9 @@ public class Duke {
         Scanner sc = new Scanner(System.in);
         List<Task> taskList = new ArrayList<Task>();
         String str;
+
+        FileIO fileIO = new FileIO(".\\data\\duke.txt");
+        taskList = fileIO.loadFile();
         do {
             str = sc.nextLine();
             String[] strArr = str.split(" ",2);
@@ -38,6 +41,7 @@ public class Duke {
                     taskList.set(num, task);
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println(task.toString());
+                    fileIO.updateFile(task, num);
                 } catch (IndexOutOfBoundsException e){
                     System.out.println("☹ OOPS!!! I'm sorry, but this task does not exist");
                 }
@@ -51,6 +55,7 @@ public class Duke {
                         System.out.println("Got it. I've added this task:");
                         System.out.println(task.toString());
                         System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+                        fileIO.writeFile(task, strArr[0]);
                     }
                 } catch (ArrayIndexOutOfBoundsException e){
                     System.out.println("☹ OOPS!!! The description of a " + strArr[0] + " cannot be empty");
@@ -73,7 +78,14 @@ public class Duke {
         System.out.println("____________________________________________________________");
     }
 
-    private static Task createTask(String type, String description){
+    /**
+     * Creates and populate a corresponding task object given its type.
+     *
+     * @param type The type of task to be created
+     * @param description The description of the task
+     * @return The task object with corresponding values
+     */
+    private static Task createTask(String type, String description) {
         String[] info;
         try {
             if (type.equals("todo")) {
@@ -85,7 +97,7 @@ public class Duke {
                 info = description.split("/at");
                 return new Event(info[0].trim(), info[1].trim());
             }
-        } catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("☹ OOPS!!! The date/time of a " + type + " cannot be empty");
         }
         return null;
