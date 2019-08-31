@@ -105,4 +105,24 @@ public class FileIO {
             System.out.println("IOException: " + e.getMessage());
         }
     }
+
+    public void removeTask(List<Task> taskList, int index){
+        try {
+            RandomAccessFile raf = new RandomAccessFile(path, "rws");
+            int counter = index;
+            while (counter != 0){
+                raf.readLine();
+                counter--;
+            }
+            long start = raf.getFilePointer();
+            while (index != taskList.size()){
+                raf.writeBytes(taskList.get(index).writeToFile());
+                index++;
+            }
+            raf.setLength(raf.getFilePointer());
+            raf.close();
+        } catch (IOException e){
+            System.out.println("IOException: " + e.getMessage());
+        }
+    }
 }
