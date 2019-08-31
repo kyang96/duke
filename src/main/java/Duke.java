@@ -34,6 +34,22 @@ public class Duke {
                     count++;
                 }
                 printLine();
+            } else if (strArr[0].equals("find")) {
+                printLine();
+                int count = 1;
+                try {
+                    String keyword = strArr[1];
+                    System.out.println("Here are the matching tasks in your list:");
+                    for (Task t : taskList){
+                        if (t.getDescription().contains(keyword)){
+                            System.out.println(count + "." + t.toString());
+                            count++;
+                        }
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("☹ OOPS!!! Please specify a keyword to search for.");
+                }
+                printLine();
             } else if (strArr[0].equals("done")) {
                 printLine();
                 try {
