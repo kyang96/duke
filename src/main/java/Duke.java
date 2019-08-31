@@ -63,6 +63,20 @@ public class Duke {
                     System.out.println("☹ OOPS!!! The description of " + strArr[0] + " cannot be empty");
                 }
                 printLine();
+            } else if (strArr[0].equals("delete")) {
+                printLine();
+                try {
+                    int index = Integer.parseInt(strArr[1]) - 1;
+                    Task task = taskList.get(index);
+                    taskList.remove(index);
+                    fileIO.removeTask(taskList, index);
+                    System.out.println("Noted. I've removed this task:");
+                    System.out.println(task.toString());
+                    System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+                } catch (IndexOutOfBoundsException e){
+                    System.out.println("☹ OOPS!!! I'm sorry, but this task does not exist");
+                }
+                printLine();
             } else {
                 if (!str.equals("bye")){
                     printLine();
