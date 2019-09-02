@@ -20,7 +20,7 @@ public class Duke {
         List<Task> taskList = new ArrayList<Task>();
         String str;
 
-        FileIO fileIO = new FileIO(".\\data\\duke.txt");
+        FileIO fileIO = new FileIO(".\\duke.txt");
         taskList = fileIO.loadFile();
         do {
             str = sc.nextLine();

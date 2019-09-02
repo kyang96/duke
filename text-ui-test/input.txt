@@ -1,0 +1,10 @@
+list
+todo study
+event running /at 03/12/2019 1000
+deadline tutorial 1 /by 12/12/2019 2359
+todo read book
+done 4
+list
+delete 1
+list
+bye

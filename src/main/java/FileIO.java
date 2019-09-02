@@ -75,7 +75,7 @@ public class FileIO {
             if (type.equals("todo")) { type = "T"; }
             else if (type.equals("event")) { type = "E"; }
             else if (type.equals("deadline")) { type = "D";}
-            if (raf.length() != 0) {
+            if (raf.getFilePointer() != 0) {
                 raf.writeBytes("\r\n");
             }
             raf.writeBytes(task.writeToFile());
@@ -118,6 +118,8 @@ public class FileIO {
             while (index != taskList.size()){
                 raf.writeBytes(taskList.get(index).writeToFile());
                 index++;
+                if (index != taskList.size())
+                    raf.writeBytes("\r\n");
             }
             raf.setLength(raf.getFilePointer());
             raf.close();
