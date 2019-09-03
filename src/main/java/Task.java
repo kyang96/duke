@@ -11,6 +11,10 @@ public class Task {
         return (isDone ? "✓" : "✘"); //return tick or X symbols
     }
 
+    public boolean getStatus(){
+        return isDone;
+    }
+
     public void markAsDone(){
         isDone = true;
     }

@@ -106,6 +106,12 @@ public class FileIO {
         }
     }
 
+    /**
+     * Updates the save file on the local computer when a task is deleted.
+     *
+     * @param taskList The list of task to update
+     * @param index The index of the task in the list to be removed
+     */
     public void removeTask(List<Task> taskList, int index){
         try {
             RandomAccessFile raf = new RandomAccessFile(path, "rws");

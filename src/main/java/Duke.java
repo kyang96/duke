@@ -1,142 +1,27 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 public class Duke {
+    private Ui ui;
+    private FileIO fileIO;
+    private TaskList taskList;
+
+    public Duke(String path){
+        ui = new Ui();
+        fileIO = new FileIO(".\\duke.txt");
+        taskList = new TaskList(fileIO.loadFile());
+    }
+
     public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-
-        printLine();
-        System.out.println("Hello! I'm Duke");
-        System.out.println("What can I do for you?");
-        printLine();
-
-        Scanner sc = new Scanner(System.in);
-        List<Task> taskList = new ArrayList<Task>();
-        String str;
-
-        FileIO fileIO = new FileIO(".\\duke.txt");
-        taskList = fileIO.loadFile();
-        do {
-            str = sc.nextLine();
-            String[] strArr = str.split(" ",2);
-            if (strArr[0].equals("list")){
-                printLine();
-                int count = 1;
-                System.out.println("Here are the tasks in your list:");
-                for (Task t : taskList){
-                    System.out.println(count + "." + t.toString());
-                    count++;
-                }
-                printLine();
-            } else if (strArr[0].equals("find")) {
-                printLine();
-                int count = 1;
-                try {
-                    String keyword = strArr[1];
-                    System.out.println("Here are the matching tasks in your list:");
-                    for (Task t : taskList){
-                        if (t.getDescription().contains(keyword)){
-                            System.out.println(count + "." + t.toString());
-                            count++;
-                        }
-                    }
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("☹ OOPS!!! Please specify a keyword to search for.");
-                }
-                printLine();
-            } else if (strArr[0].equals("done")) {
-                printLine();
-                try {
-                    int num = Integer.parseInt(strArr[1]) - 1;
-                    Task task = taskList.get(num);
-                    task.markAsDone();
-                    taskList.set(num, task);
-                    System.out.println("Nice! I've marked this task as done:");
-                    System.out.println(task.toString());
-                    fileIO.updateFile(task, num);
-                } catch (IndexOutOfBoundsException e){
-                    System.out.println("☹ OOPS!!! I'm sorry, but this task does not exist");
-                }
-                printLine();
-            } else if (strArr[0].equals("todo") || strArr[0].equals("deadline") || strArr[0].equals("event")) {
-                printLine();
-                try {
-                    Task task = createTask(strArr[0], strArr[1]);
-                    if (task != null){
-                        taskList.add(task);
-                        System.out.println("Got it. I've added this task:");
-                        System.out.println(task.toString());
-                        System.out.println("Now you have " + taskList.size() + " tasks in the list.");
-                        fileIO.writeFile(task, strArr[0]);
-                    }
-                } catch (ArrayIndexOutOfBoundsException e){
-                    System.out.println("☹ OOPS!!! The description of " + strArr[0] + " cannot be empty");
-                }
-                printLine();
-            } else if (strArr[0].equals("delete")) {
-                printLine();
-                try {
-                    int index = Integer.parseInt(strArr[1]) - 1;
-                    Task task = taskList.get(index);
-                    taskList.remove(index);
-                    fileIO.removeTask(taskList, index);
-                    System.out.println("Noted. I've removed this task:");
-                    System.out.println(task.toString());
-                    System.out.println("Now you have " + taskList.size() + " tasks in the list.");
-                } catch (IndexOutOfBoundsException e){
-                    System.out.println("☹ OOPS!!! I'm sorry, but this task does not exist");
-                }
-                printLine();
-            } else {
-                if (!str.equals("bye")){
-                    printLine();
-                    System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
-                    printLine();
-                }
-            }
-        } while (!str.equals("bye"));
-        printLine();
-        System.out.println("Bye. Hope to see you again soon!");
-        printLine();
+        new Duke(".\\duke.txt").run();
     }
 
-    private static void printLine(){
-        System.out.println("____________________________________________________________");
-    }
-
-    /**
-     * Creates and populate a corresponding task object given its type.
-     *
-     * @param type The type of task to be created
-     * @param description The description of the task
-     * @return The task object with corresponding values
-     */
-    private static Task createTask(String type, String description) {
-        String[] info;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HHmm");
-            if (type.equals("todo")) {
-                return new Todo(description);
-            } else if (type.equals("deadline")) {
-                info = description.split("/by");
-                Date date = sdf.parse(info[1].trim());
-                return new Deadline(info[0].trim(), date);
-            } else if (type.equals("event")) {
-                info = description.split("/at");
-                Date date = sdf.parse(info[1].trim());
-                return new Event(info[0].trim(), date);
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("☹ OOPS!!! The date/time of a " + type + " cannot be empty");
-        } catch (ParseException e) {
-            System.out.println("☹ OOPS!!! The format of date/time is \"dd/mm/yyyy hhmm\"");
+    public void run(){
+        ui.welcomeMsg();
+        boolean isExit = false;
+        while (!isExit){
+            String cmd = ui.readLine();
+            ui.printLine();
+            isExit = Parser.parse(cmd, taskList, fileIO);
+            ui.printLine();
         }
-        return null;
+        ui.byeMsg();
     }
 }
