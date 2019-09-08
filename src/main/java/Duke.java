@@ -5,7 +5,7 @@ public class Duke {
 
     public Duke(String path){
         ui = new Ui();
-        fileIO = new FileIO(".\\duke.txt");
+        fileIO = new FileIO(path);
         taskList = new TaskList(fileIO.loadFile());
     }
 
