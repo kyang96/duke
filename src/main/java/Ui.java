@@ -7,6 +7,9 @@ public class Ui {
         sc = new Scanner(System.in);
     }
 
+    /**
+     * Prints the welcome message of the program.
+     */
     public void welcomeMsg(){
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -21,12 +24,19 @@ public class Ui {
         printLine();
     }
 
+    /**
+     * Prints the goodbye message when the user exits the program.
+     */
     public void byeMsg(){
         printLine();
         System.out.println("Bye. Hope to see you again soon!");
         printLine();
     }
 
+    /**
+     * Prompts the user for input.
+     * @return The input of the user.
+     */
     public String readLine(){
         return sc.nextLine();
     }

@@ -4,32 +4,61 @@ import java.util.Date;
 import java.util.List;
 
 public class TaskList {
+    /**
+     * Stores the current list of task of the user
+     */
     private List<Task> taskList;
 
     public TaskList(List<Task> taskList){
         this.taskList = taskList;
     }
 
+    /**
+     * Returns the list of tasks in the task list.
+     * @return The list of tasks.
+     */
     public List<Task> getTaskList(){
         return taskList;
     }
 
+    /**
+     * Add the given task into the task list.
+     * @param task The task to be added.
+     */
     public void addTask(Task task){
         taskList.add(task);
     }
 
+    /**
+     * Retrieve the task at the given index of the task list.
+     * @param index The index of the task in the list.
+     * @return The task at the given index.
+     */
     public Task getTask(int index){
         return taskList.get(index);
     }
 
+    /**
+     * Modify the value of the task at the given index in the list.
+     * @param index The index of the task in the list
+     * @param task The task with modified values
+     */
     public void modifyTask(int index, Task task){
         taskList.set(index, task);
     }
 
+    /**
+     * Removes the task at the given index of the task list.
+     * @param index The index of the task in the list
+     */
     public void deleteTask(int index){
         taskList.remove(index);
     }
 
+    /**
+     * Get the current number of tasks in the task list.
+     * @return The number of tasks in the list.
+     */
     public int getTaskListSize(){
         return taskList.size();
     }
@@ -39,7 +68,7 @@ public class TaskList {
      *
      * @param type The type of task to be created
      * @param description The description of the task
-     * @return The task object with corresponding values
+     * @return The task object with its corresponding values
      */
     public Task createTask(String type, String description) {
         String[] info;

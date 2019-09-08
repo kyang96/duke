@@ -1,4 +1,12 @@
 public class Parser {
+    /**
+     * This method parses the input command of the user and execute the different functions based on the given command.
+     *
+     * @param fullCommand The full command input by the user
+     * @param taskList The current list of task
+     * @param fileIO The class object that handles file IO
+     * @return true if the command given is bye
+     */
     public static boolean parse(String fullCommand, TaskList taskList, FileIO fileIO){
         boolean isExit = false;
 

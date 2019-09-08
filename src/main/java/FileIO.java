@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 public class FileIO {
+    /**
+     * The path where the save file is located in the local computer.
+     */
     private String path;
 
     public FileIO(String path){
@@ -13,7 +16,7 @@ public class FileIO {
     }
 
     /**
-     * Attempts to load save file on the local computer and populate the task list with its data.
+     * Attempts to load the save file on the local computer and populate the task list with its data.
      *
      * @return The list of task loaded from save file
      */
