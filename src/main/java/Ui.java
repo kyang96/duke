@@ -1,8 +1,14 @@
 import java.util.Scanner;
 
 public class Ui {
+    /**
+     * Scanner object used for reading input from user.
+     */
     private Scanner sc;
 
+    /**
+     * Constructs a new Ui object.
+     */
     public Ui(){
         sc = new Scanner(System.in);
     }
@@ -41,6 +47,9 @@ public class Ui {
         return sc.nextLine();
     }
 
+    /**
+     * Prints the separator lines for UI
+     */
     public void printLine(){
         System.out.println("____________________________________________________________");
     }

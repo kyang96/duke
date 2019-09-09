@@ -11,6 +11,10 @@ public class FileIO {
      */
     private String path;
 
+    /**
+     * Constructs a new FileIO object.
+     * @param path The path of the save file in the local computer.
+     */
     public FileIO(String path){
         this.path = path;
     }

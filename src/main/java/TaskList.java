@@ -9,6 +9,10 @@ public class TaskList {
      */
     private List<Task> taskList;
 
+    /**
+     * Constructs a new taskList object.
+     * @param taskList The list of task to be added.
+     */
     public TaskList(List<Task> taskList){
         this.taskList = taskList;
     }
